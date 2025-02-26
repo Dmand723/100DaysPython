@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter import messagebox
 import os
+import random as r
+import pyperclip 
 
 mainDir = os.path.dirname(__file__)
 EMAIL = 'dawson.simmons723@gmail.com'
@@ -64,7 +66,25 @@ class Program():
         self.img = PhotoImage(file=logoDir)
 
     def randomizePassword(self, catch):
-        pass
+        letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+        numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+        symbols = ['!', '#', '$', '%', '&', '*']   
+        numberLetters = r.randint(8,10)
+        numberSymbols = r.randint(2,4)
+        numberNumbers = r.randint(2,4)
+        password = []
+        for i in range(numberLetters):
+            password.append(str(letters[r.randint(0,len(letters)-1)]))
+        for i in range(numberSymbols):
+            password.append(str(symbols[r.randint(0,len(symbols)-1)]))
+        for i in range(numberNumbers):
+            password.append(str(numbers[r.randint(0,len(numbers)-1)]))
+        r.shuffle(password)
+        password = ''.join(password)
+        self.passEntry.delete(0,END)
+        self.passEntry.insert(0,password)
+        pyperclip.copy(password)
+        
 
     def savePass(self):
         
