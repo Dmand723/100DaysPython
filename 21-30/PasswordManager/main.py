@@ -1,7 +1,9 @@
 from tkinter import *
+from tkinter import messagebox
 import os
 
 mainDir = os.path.dirname(__file__)
+EMAIL = 'dawson.simmons723@gmail.com'
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
@@ -14,8 +16,9 @@ class Program():
         self.root.title('Password Manger')
         self.root.config(padx=50, pady=50)
         self.canvas = Canvas(height=200,width=300)
-
+        
         self.loadData()
+        self.entrys = []
         self.createWidgets()
         
         self.createLayout()
@@ -31,8 +34,12 @@ class Program():
         self.emailLabel = Label(text="Email/Username:")
         self.passLabel = Label(text="Password:")
         self.webEntry = Entry(width=35)
+        self.entrys.append(self.webEntry)
         self.emailEntry = Entry(width=35)
+        self.entrys.append(self.emailEntry)
+        self.emailEntry.insert(0, EMAIL)
         self.passEntry = Entry(width=35)
+        self.entrys.append(self.passEntry)
         self.genBtn = Label(text="🎲",width=3)
         self.genBtn.bind("<Button-1>", func=self.randomizePassword)
         self.addBtn = Button(text="Add",width=35, command=self.savePass)
@@ -57,20 +64,31 @@ class Program():
         self.img = PhotoImage(file=logoDir)
 
     def randomizePassword(self, catch):
-        print("Random")
+        pass
 
     def savePass(self):
+        
         website = self.webEntry.get()
         email = self.emailEntry.get()
         password = self.passEntry.get()
-        textDir = os.path.join(mainDir,"passwords.txt")
-        file = open(textDir,'a')
-        file.write(f'{website} | {email} | {password}')
-        file.close()
-        self.clearFeilds()
+        if len(website) == 0 or len(email) == 0 or len(password) == 0:
+            messagebox.showwarning("Stupid Boy","Don't leave any of the fields empty")
+        else:
+            textDir = os.path.join(mainDir,"passwords.txt")
+            isCorrect = messagebox.askyesno("Are you sure",f"is this Data correct?: \nWebsite: {website}\nEmail/Username: {email}\nPassword:{password}")
+            if isCorrect:
+                file = open(textDir,'a')
+                file.write(f'{website} | {email} | {password} \n')
+                file.close()
+                self.clearFeilds()
+            else:
+                pass
 
     def clearFeilds(self):
-        pass
+        for e in self.entrys:
+            e.delete(0,END)
+        self.emailEntry.insert(0,EMAIL)
+
 
 
 def main():
