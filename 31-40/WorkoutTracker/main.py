@@ -40,12 +40,12 @@ class WorkoutTraker():
         self.root.config(padx=80,pady=80)
         self.root.title('Workout Tracker')
 
-
     def createWidgets(self):
-        self.title = Label(text='Enter a new workout')
 
         self.newWorkoutLbl = Label(text="Tell me which exercises you did:")
-        self.newWorkoutEntry = Entry(width=80)
+        self.newWorkoutEntry = Entry(width=30)
+        self.newWorkoutEntry.bind('<Return>',self.addWorkout)
+
         self.entrys.append(self.newWorkoutEntry)
 
         self.submitBtn = Button(text="Submit" ,command=self.addWorkout)
@@ -53,14 +53,13 @@ class WorkoutTraker():
 
 
     def createLayout(self):
-        self.title.grid(row=0,column=1)
 
-        self.newWorkoutLbl.grid(row=1,column=0)
+        self.newWorkoutLbl.grid(row=0,column=1)
         self.newWorkoutEntry.grid(row=1,column=1)
         
         self.submitBtn.grid(row=3,column=1)
 
-    def addWorkout(self):
+    def addWorkout(self,catch = None):
         exerciseText = self.newWorkoutEntry.get()
         req = {
             "query": exerciseText,
@@ -83,22 +82,27 @@ class WorkoutTraker():
 
 
 
-
-        for exercise in result["exercises"]:
-            sheet_inputs = {
-                "workout": {
-                    "date": today_date,
-                    "time": now_time,
-                    "exercise": exercise["name"].title(),
-                    "duration": exercise["duration_min"],
-                    "calories": exercise["nf_calories"]
+        try:
+            for exercise in result["exercises"]:
+                sheet_inputs = {
+                    "workout": {
+                        "date": today_date,
+                        "time": now_time,
+                        "exercise": exercise["name"].title(),
+                        "duration": exercise["duration_min"],
+                        "calories": exercise["nf_calories"]
+                    }
                 }
-            }
 
-            #Basic Authentication
-            sheet_response = requests.post(self.sheet_endpoint,json=sheet_inputs,headers=self.basic_headers)
-
-            messagebox.showinfo("Succsess","Data added succsessfully")
+                #Basic Authentication
+                
+        except KeyError:
+            messagebox.showerror("Error","Entry can not be blank")
+        else:
+            res = requests.post(self.sheet_endpoint,json=sheet_inputs,headers=self.basic_headers).text
+            res = res.replace('{','')
+            res = res.replace('}','')
+            messagebox.showinfo("Succsess",f'Data Added:\n {res}')
             self.newWorkoutEntry.delete(0,END)
 
 WorkoutTraker()
