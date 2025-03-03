@@ -236,28 +236,4 @@ def main():
 main()
 
 
-graph_config = {
-    'id':'graph1',
-    'name': 'UkePractice',
-    'unit': 'Min',
-    'type': 'int',
-    'color':'ajisai'
-}
-
-
-
-
-
-# print(res)
-
-
-req = {
-    'date': dt.date.today().strftime("%Y%m%d"),
-    'quantity': '800'
-}
-
-
-# print(res.text)
-print(req['date'])
-
 
