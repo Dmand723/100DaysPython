@@ -100,8 +100,7 @@ class WorkoutTraker():
             messagebox.showerror("Error","Entry can not be blank")
         else:
             res = requests.post(self.sheet_endpoint,json=sheet_inputs,headers=self.basic_headers).text
-            res = res.replace('{','')
-            res = res.replace('}','')
+            res = res.replace('{','').replace('}','')
             messagebox.showinfo("Succsess",f'Data Added:\n {res}')
             self.newWorkoutEntry.delete(0,END)
 
