@@ -1,7 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
-import math
 
 chromeOptions = webdriver.ChromeOptions()
 chromeOptions.add_experimental_option('detach',True)
@@ -9,11 +8,9 @@ chromeOptions.add_experimental_option('detach',True)
 driver = webdriver.Chrome(options=chromeOptions)
 driver.get('https://orteil.dashnet.org/experiments/cookie/')
 
-
 upgrades = {}
 allUpgradeBtns = driver.find_elements(By.CSS_SELECTOR, '#store div')
 cookie = driver.find_element(by=By.ID, value="cookie")
-
 
 timeout = time.time() + 5
 five_min = time.time() + 60*5  # 5 minutes
@@ -41,9 +38,7 @@ while True:
         if len(canBuy) != 0:
             hightestCanBuy = canBuy[-1]['ID']
             driver.find_element(By.ID,hightestCanBuy).click()
-        
-
-
+            
         timeout = time.time() +5
 
     #after 5 min stop the program and tell how many cps we were making 
