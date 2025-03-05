@@ -20,7 +20,7 @@ while True:
     
     #after 5 secconds 
     if time.time() > timeout:
-        curMoney = int(driver.find_element(By.ID, 'money').text)
+        curMoney = int(driver.find_element(By.ID, 'money').text.replace(',',''))
 
         allUpgradeBtns = driver.find_elements(By.CSS_SELECTOR, '#store div')
         for upgrade in allUpgradeBtns:
@@ -43,8 +43,8 @@ while True:
             
         timeout = time.time() +5
 
-    #after 5 min stop the program and tell how many cps we were making 
-    if time.time() > five_min:
-        cookie_per_s = driver.find_element(by=By.ID, value="cps").text
-        print(cookie_per_s)
-        break
+    # #after 5 min stop the program and tell how many cps we were making 
+    # if time.time() > five_min:
+    #     cookie_per_s = driver.find_element(by=By.ID, value="cps").text
+    #     print(cookie_per_s)
+    #     break
