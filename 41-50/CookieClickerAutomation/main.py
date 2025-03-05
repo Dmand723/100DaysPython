@@ -9,28 +9,30 @@ driver = webdriver.Chrome(options=chromeOptions)
 driver.get('https://orteil.dashnet.org/experiments/cookie/')
 
 upgrades = {}
-allUpgradeBtns = driver.find_elements(By.CSS_SELECTOR, '#store div')
+
 cookie = driver.find_element(by=By.ID, value="cookie")
 
 timeout = time.time() + 5
 five_min = time.time() + 60*5  # 5 minutes
 
-for upgrade in allUpgradeBtns:
-    try:
-        upgradeHeader = upgrade.find_element(By.CSS_SELECTOR, 'b').text.replace(' ','')
-        
-        title, price = upgradeHeader.split('-')
-        #print(title,price)
-        upgrades[title] = {'price':int(price.replace(',','')),'element':upgrade,"ID":upgrade.get_attribute('id')}
-    except:
-        pass
-
 while True:
     cookie.click()
-    curMoney = int(driver.find_element(By.ID, 'money').text)
     
     #after 5 secconds 
     if time.time() > timeout:
+        curMoney = int(driver.find_element(By.ID, 'money').text)
+
+        allUpgradeBtns = driver.find_elements(By.CSS_SELECTOR, '#store div')
+        for upgrade in allUpgradeBtns:
+            try:
+                upgradeHeader = upgrade.find_element(By.CSS_SELECTOR, 'b').text.replace(' ','')
+        
+                title, price = upgradeHeader.split('-')
+
+                upgrades[title] = {'price':int(price.replace(',','')),"ID":upgrade.get_attribute('id')}
+            except:
+                pass
+
         canBuy = []
         for e in upgrades:
             if curMoney >= upgrades[e]['price']:
