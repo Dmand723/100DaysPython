@@ -45,8 +45,7 @@ for u in urls:
     BUY_PRICE = urls[u]['buy-price']
 
     if price < BUY_PRICE:
-        message = f"{u} is on sale for {price}!"
-
+        message = f"{u} is on sale for {price}!"    
         with smtplib.SMTP('smtp.gmail.com',587) as connection:
             connection.starttls()
             result = connection.login(EMAIL, PASSWORD)
