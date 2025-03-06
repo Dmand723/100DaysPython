@@ -1,3 +1,4 @@
 testFile.py
 *.env
 token.txt
+*token.txt
